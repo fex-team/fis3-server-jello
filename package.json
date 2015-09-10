@@ -1,0 +1,28 @@
+{
+  "name": "fis3-server-jello",
+  "version": "0.0.3",
+  "description": "fis3 server jello",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fex-team/fis3-server-jello.git"
+  },
+  "keywords": [
+    "fis3",
+    "server",
+    "tomcat",
+    "jello"
+  ],
+  "author": "fis",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/fex-team/fis3-server-php/issues"
+  },
+  "homepage": "https://github.com/fex-team/fis3-server-php",
+  "dependencies": {
+    "tar": "2.2.0"
+  }
+}
