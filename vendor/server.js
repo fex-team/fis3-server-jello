@@ -97,27 +97,17 @@ function start(opt, callback) {
       clearTimeout(timeoutTimer);
       process.stdout.write(' at port [' + opt.port + ']\n');
 
-      function open() {
-        var protocol = opt.https ? "https" : "http";
-        var address = protocol + '://127.0.0.1' + (opt.port == 80 ? '/' : ':' + opt.port + '/');
+      var protocol = opt.https ? "https" : "http";
+      var address = protocol + '://127.0.0.1' + (opt.port == 80 ? '/' : ':' + opt.port + '/');
 
-        fis.log.notice('Browse ' + '%s'.yellow.bold, address);
-        fis.log.notice('Or browse ' + '%s'.yellow.bold, protocol + '://' + util.hostname + (opt.port == 80 ? '/' : ':' + opt.port + '/'));
+      fis.log.notice('Browse ' + '%s'.yellow.bold, address);
+      fis.log.notice('Or browse ' + '%s'.yellow.bold, protocol + '://' + util.hostname + (opt.port == 80 ? '/' : ':' + opt.port + '/'));
 
-        console.log();
+      console.log();
 
-        opt.browse ? util.open(address, function() {
-          opt.daemon && process.exit();
-        }) : (opt.daemon && process.exit());
-      }
-
-      // 自动初始化运行时框架。
-      var markerFile = path.join(opt.root, 'WEB-INF', 'web.xml');
-      if (!fis.util.exists(markerFile)) {
-        extract(path.join(__dirname, 'framework.tar'), opt.root, open);
-      } else {
-        setTimeout(open, 200);
-      }
+      opt.browse ? util.open(address, function() {
+        opt.daemon && process.exit();
+      }) : (opt.daemon && process.exit());
     } else if (chunk.indexOf('Exception') > 0) {
       process.stdout.write(' fail\n');
       try {
@@ -160,8 +150,19 @@ exports.start = function(opt, callback) {
   // env check.
   checkJavaEnable(opt, function(java) {
     if (java) {
-      // seems ok
-      start(opt, callback);
+
+      var done = function() {
+        start(opt, callback);
+      };
+
+      // 自动初始化运行时框架。
+      var markerFile = path.join(opt.root, 'WEB-INF', 'web.xml');
+      if (!fis.util.exists(markerFile)) {
+        extract(path.join(__dirname, 'framework.tar'), opt.root, done);
+      } else {
+        setTimeout(done, 200);
+      }
+
     } else {
       callback('`java` is required.');
     }
