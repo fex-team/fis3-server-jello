@@ -1,6 +1,6 @@
 {
   "name": "fis3-server-jello",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "fis3 server jello",
   "main": "index.js",
   "scripts": {
